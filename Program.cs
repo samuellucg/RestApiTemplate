@@ -1,20 +1,35 @@
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using Infra.Context;
+using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
 {
-    opt.SwaggerDoc("v1", new OpenApiInfo 
+    // Informações do Swagger
+    opt.SwaggerDoc("v1", new OpenApiInfo  
     { Title = "Api Rest Template", 
       Version = "1.0.0",
-      Description = "Template for future projects"
+      Description = "Template for future projects",
+
+      Contact = new OpenApiContact
+      {
+          Name = "Teste para site qualquer",
+          Url = new Uri("https://www.google.com/")
+      }
     });
 });
-builder.WebHost.UseUrls("https://0.0.0.0:7040");
 
+// Definição do banco de dados
+builder.Services.AddDbContext<DbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DbRoute"),
+    b => b.MigrationsAssembly("ApiRestTemplate")));
+
+// Definição de url padrão para o swagger.
+builder.WebHost.UseUrls("https://0.0.0.0:7040");
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -34,9 +49,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 //app.MapControllerRoute(
 //    name: "default",
