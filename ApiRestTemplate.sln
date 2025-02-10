@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiRestTemplate", "ApiRestTemplate.csproj", "{9BD6A2EF-1CE0-4101-A547-00E63A82C258}"
+	ProjectSection(ProjectDependencies) = postProject
+		{03799CDB-9A39-4CAD-8636-9292CA4308FC} = {03799CDB-9A39-4CAD-8636-9292CA4308FC}
+		{94B50501-F6F0-4FE2-B92E-7CBCFD24F666} = {94B50501-F6F0-4FE2-B92E-7CBCFD24F666}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "..\Infra\Infra.csproj", "{3548ABC0-392F-4285-808B-E827E4A11672}"
 EndProject

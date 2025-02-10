@@ -1,4 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Application.Services;
+using Application.Services.Interface;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Collections.Generic;
+using Domain.Model;
 
 namespace ApiRestTemplate.Controllers
 {
@@ -6,10 +11,28 @@ namespace ApiRestTemplate.Controllers
     [ApiController] // Define que a controller é uma API
     public class UserController : Controller
     {
-        [HttpGet(nameof(Users))]
-        public IActionResult Users()
+        private readonly IUserService _userService;
+        public UserController(IUserService usersService)
         {
-            return View();
+            _userService = usersService;
+        }
+
+        [HttpGet(nameof(Users))]
+        [SwaggerOperation(Summary = "Get all users", Description = "Get all users")]
+
+        public async Task<IActionResult> Users()
+        {
+            try
+            {
+                List<User> listUsers = await _userService.GetUsers();
+                return View(listUsers);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
+            }
+
         }
     }
 }

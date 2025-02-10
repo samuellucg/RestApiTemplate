@@ -2,6 +2,9 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Infra.Context;
 using Microsoft.Extensions.Configuration;
+using Application.Services;
+using ApiRestTemplate.Controllers;
+using Application.Services.Interface;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +33,7 @@ builder.Services.AddDbContext<DbContext>(opt => opt.UseSqlServer(builder.Configu
 
 // Definição de url padrão para o swagger.
 builder.WebHost.UseUrls("https://0.0.0.0:7040");
+builder.Services.AddScoped<IUserService, UsersService>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -48,7 +52,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
