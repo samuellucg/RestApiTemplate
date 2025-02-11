@@ -28,7 +28,7 @@ namespace ApiRestTemplate.Controllers
             try
             {
                 _logger.LogInformation(nameof(Users));
-                IEnumerable<User> listUsers =  await _userService.GetUsers();
+                IEnumerable<User> listUsers = await _userService.GetUsers();
                 return Ok(listUsers);
             }
             catch (Exception e)
@@ -37,6 +37,34 @@ namespace ApiRestTemplate.Controllers
                 return BadRequest(e.Message);
             }
 
+        }
+
+        [HttpGet(nameof(UserById))]
+        [SwaggerOperation(Summary = "Get user by Id", Description = "Get user by id")]
+        public async Task<IActionResult> UserById(int id)
+        {
+            try
+            {
+                _logger.LogInformation(nameof(UserById));
+                IEnumerable<User> listUsers = await _userService.GetUsers();
+                if (!listUsers.Any())
+                {
+                    return NoContent();
+                }
+                var response = listUsers.FirstOrDefault(x => x.Id == id);
+                if (response is null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(response);
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(string.Format($"{nameof(UserById)} {e.Message}"));
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost(nameof(CreateUser))]
@@ -68,5 +96,18 @@ namespace ApiRestTemplate.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPut(nameof(EditUserById))]
+        [SwaggerOperation(Summary = "Edit user by id",Description = "Edit user by id")]
+
+        public async Task<IActionResult> EditUserById(int id, User user)
+        {
+            var response = await _userService.EditUserById(id, user);
+            return Ok(response);
+        }
+
+        //[HttpDelete(nameof(DeleteUserById))]
+        //[SwaggerOperation(Summary = "Delete user by id", Description = "Delete user by id")]
+
     }
 }
