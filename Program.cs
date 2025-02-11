@@ -5,10 +5,15 @@ using Microsoft.Extensions.Configuration;
 using Application.Services;
 using ApiRestTemplate.Controllers;
 using Application.Services.Interface;
+using Infra.Repository.Interface;
+using Infra.Repository;
+using Domain.Model;
+using Domain.Model.Interface;
+using ApiRestTemplate.ApiAreas;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
+Configurations.Initialize(builder.Configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
@@ -28,12 +33,15 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 // Definição do banco de dados
-builder.Services.AddDbContext<DbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DbRoute"),
+builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DbRoute"),
     b => b.MigrationsAssembly("ApiRestTemplate")));
+
 
 // Definição de url padrão para o swagger.
 builder.WebHost.UseUrls("https://0.0.0.0:7040");
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserService, UsersService>();
+builder.Services.AddScoped<IConfig, Configurations>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
