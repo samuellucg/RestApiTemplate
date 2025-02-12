@@ -7,6 +7,13 @@ using Domain.Model;
 
 namespace ApiRestTemplate.Controllers
 {
+    /* 
+     Responsável por fazer a comunicação entre a API e o serviço de usuário.
+
+     Intermediador.
+
+     */
+
     [Route("api/[controller]")] // Define a rota da controller
     [ApiController] // Define que a controller é uma API
     public class UserController : Controller
@@ -98,7 +105,7 @@ namespace ApiRestTemplate.Controllers
         }
 
         [HttpPut(nameof(EditUserById))]
-        [SwaggerOperation(Summary = "Edit user by id",Description = "Edit user by id")]
+        [SwaggerOperation(Summary = "Edit user by id", Description = "Edit user by id")]
 
         public async Task<IActionResult> EditUserById(int id, User user)
         {
@@ -106,8 +113,23 @@ namespace ApiRestTemplate.Controllers
             return Ok(response);
         }
 
-        //[HttpDelete(nameof(DeleteUserById))]
-        //[SwaggerOperation(Summary = "Delete user by id", Description = "Delete user by id")]
+        [HttpDelete(nameof(DeleteUserById))]
+        [SwaggerOperation(Summary = "Delete user by id", Description = "Delete user by id")]
+        public async Task<IActionResult> DeleteUserById(int id)
+        {
+            var response = await _userService.DeleteUserById(id);
+            if (response == 204)
+            {
+                return NoContent();
+            }
+            
+            else if (response == 500)
+            {
+                return StatusCode(500);
+            }
+
+            return Ok("User has been deleted");
+        }
 
     }
 }

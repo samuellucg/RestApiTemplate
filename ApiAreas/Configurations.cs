@@ -4,6 +4,9 @@ using Domain.Model.Interface;
 
 namespace ApiRestTemplate.ApiAreas
 {
+
+    /* Configurações gerais da API, como ConnectionStrings, etc.
+       Geralmente é feita no program.cs, mas para desacoplamento, fazemos essa separação. */
     public class Configurations : IConfig
     {
         private readonly IConfiguration _configuration;
