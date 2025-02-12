@@ -91,10 +91,10 @@ namespace ApiRestTemplate.Controllers
 
                 if (!response)
                 {
-                    return BadRequest("Error creating user");
+                    return BadRequest("Error creating user, maybe your e-mail has been registered before");
                 }
 
-                return Ok(response);
+                return Ok(user);
             }
             catch (Exception e)
             {
@@ -110,19 +110,21 @@ namespace ApiRestTemplate.Controllers
         public async Task<IActionResult> EditUserById(int id, User user)
         {
             var response = await _userService.EditUserById(id, user);
-            return Ok(response);
+            return Ok(user);
         }
 
         [HttpDelete(nameof(DeleteUserById))]
         [SwaggerOperation(Summary = "Delete user by id", Description = "Delete user by id")]
         public async Task<IActionResult> DeleteUserById(int id)
         {
-            var response = await _userService.DeleteUserById(id);
+            var response = await _userService.DeleteUserById(id);;
+            return response == 204 ? NoContent() : response == 500 ? StatusCode(500) : Ok("User has been deleted");
+
             if (response == 204)
             {
                 return NoContent();
             }
-            
+
             else if (response == 500)
             {
                 return StatusCode(500);
