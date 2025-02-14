@@ -91,7 +91,8 @@ namespace ApiRestTemplate.Controllers
 
                 if (!response)
                 {
-                    return BadRequest("Error creating user");
+                    return Conflict("Error creating user, maybe your e-mail has been registered before.");
+                    //return BadRequest("Error creating user maybe your e-mail has been registered before.");
                 }
 
                 return Ok(response);
