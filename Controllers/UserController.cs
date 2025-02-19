@@ -69,7 +69,7 @@ namespace ApiRestTemplate.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(string.Format($"{nameof(UserById)} {e.Message}"));
+                _logger.LogError($"{nameof(UserById)} {e.Message}");
                 return BadRequest(e.Message);
             }
         }
@@ -99,8 +99,7 @@ namespace ApiRestTemplate.Controllers
             }
             catch (Exception e)
             {
-
-                _logger.LogError(string.Format($"{nameof(CreateUser)} {e.Message}"));
+                _logger.LogError($"{nameof(CreateUser)} {e.Message}");
                 return BadRequest(e.Message);
             }
         }
@@ -110,26 +109,46 @@ namespace ApiRestTemplate.Controllers
 
         public async Task<IActionResult> EditUserById(int id, User user)
         {
-            var response = await _userService.EditUserById(id, user);
-            return Ok(response);
+            try
+            {
+                var response = await _userService.EditUserById(id, user);
+                return Ok(response);
+            }
+
+            catch (Exception e)
+            {
+
+                _logger.LogError($"{nameof(EditUserById)} {e.Message}");
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete(nameof(DeleteUserById))]
         [SwaggerOperation(Summary = "Delete user by id", Description = "Delete user by id")]
         public async Task<IActionResult> DeleteUserById(int id)
         {
-            var response = await _userService.DeleteUserById(id);
-            if (response == 204)
+            try
             {
-                return NoContent();
-            }
-            
-            else if (response == 500)
-            {
-                return StatusCode(500);
-            }
+                var response = await _userService.DeleteUserById(id);
 
-            return Ok("User has been deleted");
+                if (response == 204)
+                {
+                    return NoContent();
+                }
+
+                else if (response == 500)
+                {
+                    return StatusCode(500);
+                }
+
+                return Ok("User has been deleted");
+            }
+            catch (Exception e)
+            {
+
+                _logger.LogError($"{nameof(DeleteUserById)} {e.Message}");
+                return BadRequest(e.Message);
+            }
         }
 
     }

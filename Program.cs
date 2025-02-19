@@ -10,6 +10,7 @@ using Infra.Repository;
 using Domain.Model;
 using Domain.Model.Interface;
 using ApiRestTemplate.ApiAreas;
+using Domain.Utils;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +42,8 @@ builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Confi
 builder.WebHost.UseUrls("https://0.0.0.0:7040");
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserService, UsersService>();
+//builder.Services.AddScoped<IUtils, Utilities>();
+builder.Services.AddSingleton<Utilities>();
 builder.Services.AddScoped<IConfig, Configurations>();
 var app = builder.Build();
 
