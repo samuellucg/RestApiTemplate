@@ -74,6 +74,22 @@ namespace ApiRestTemplate.Controllers
             }
         }
 
+        [HttpGet(nameof(GetEmails))]
+        [SwaggerOperation(Summary = "Get user emails from user.json", Description = "Get users emails from user.json")]
+        public async Task<IActionResult> GetEmails()
+        {
+            try
+            {
+                var response = await _userService.GetEmails();
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"{nameof(GetEmails)} {e.Message}");
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost(nameof(CreateUser))]
         [SwaggerOperation(Summary = "Create a user", Description = "Create a user")]
 
@@ -150,6 +166,7 @@ namespace ApiRestTemplate.Controllers
                 return BadRequest(e.Message);
             }
         }
+
 
     }
 }

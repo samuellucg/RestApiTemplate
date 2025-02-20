@@ -12,7 +12,7 @@ namespace ApiRestTemplate.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }

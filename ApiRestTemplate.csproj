@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\fontawesome\css\**" />
+    <Compile Remove="wwwroot\fontawesome\js\**" />
     <Compile Remove="wwwroot\js\bootstrap\**" />
+    <Content Remove="wwwroot\fontawesome\css\**" />
+    <Content Remove="wwwroot\fontawesome\js\**" />
     <Content Remove="wwwroot\js\bootstrap\**" />
+    <EmbeddedResource Remove="wwwroot\fontawesome\css\**" />
+    <EmbeddedResource Remove="wwwroot\fontawesome\js\**" />
     <EmbeddedResource Remove="wwwroot\js\bootstrap\**" />
+    <None Remove="wwwroot\fontawesome\css\**" />
+    <None Remove="wwwroot\fontawesome\js\**" />
     <None Remove="wwwroot\js\bootstrap\**" />
   </ItemGroup>
 
