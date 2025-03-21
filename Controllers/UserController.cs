@@ -4,6 +4,7 @@ using Application.Services.Interface;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using Domain.Model;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ApiRestTemplate.Controllers
 {
@@ -20,13 +21,16 @@ namespace ApiRestTemplate.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
 
-        public UserController(IUserService usersService, ILogger<UserController> logger)
+        public UserController(IUserService usersService, ILogger<UserController> logger, IAccountService accountService)
         {
             _userService = usersService;
             _logger = logger;
+            _accountService = accountService;
         }
 
+        #region UserRequest
         [HttpGet(nameof(Users))]
         [SwaggerOperation(Summary = "Get all users", Description = "Get all users")]
 
@@ -167,6 +171,34 @@ namespace ApiRestTemplate.Controllers
             }
         }
 
+        #endregion
 
+        #region Account
+
+        [HttpPost(nameof(LoginUser))]
+        [SwaggerOperation(Summary = "Login user", Description = "To login user")]
+        public async Task<IActionResult> LoginUser([FromBody] User user)
+        {
+            try
+            {
+                var response = await _accountService.ValidateUser(user);
+                if (response)
+                {
+                    RedirectToPage("/Home/Dashboard");
+                    return Ok(response);
+                }
+
+                return NotFound();
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(string.Format($"{nameof(LoginUser)} {e.Message}"));
+                return BadRequest(e.Message);
+            }
+
+        }
+
+        #endregion
     }
 }

@@ -45,6 +45,7 @@ builder.Services.AddScoped<IUserService, UsersService>();
 //builder.Services.AddScoped<IUtils, Utilities>();
 builder.Services.AddSingleton<Utilities>();
 builder.Services.AddScoped<IConfig, Configurations>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

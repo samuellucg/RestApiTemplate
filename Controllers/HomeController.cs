@@ -16,11 +16,21 @@ namespace ApiRestTemplate.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public IActionResult Register()
         {
             return View();
         }
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy() // obsoleto talvez
+        {
+            return View();
+        }
+
+
 
     }
 }

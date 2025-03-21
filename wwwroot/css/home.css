@@ -31,7 +31,11 @@
     /*    transition: color .15sease-in-out, background-color .15sease-in-out, border-color .15sease-in-out, box-shadow .15sease-in-out;*/
 }
 
-
+.warn-message {
+    color: red;
+    opacity: 70%;
+    display: none;
+}
 
 body {
     background-color: #19123B;
