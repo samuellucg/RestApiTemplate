@@ -5,7 +5,12 @@
         "Password": this.Password.value
     }
     loginUser(userData);
-})
+});
+
+function redirectToRegister()
+{
+    window.location.href = "/Home/Register"
+}
 
 function showPassword() {
     var tagInput = document.getElementById('password');
@@ -32,7 +37,6 @@ async function loginUser(data) {
             body: JSON.stringify(data),
             headers: myHeaders
         });
-        //console.warn(response)
         if (response.ok) {
             window.location.href = '/Home/Dashboard'
         }
@@ -50,24 +54,24 @@ async function loginUser(data) {
     }
 }
 
-async function slabIdChanges(data) {
-    closedModal()
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    try {
-        const response = await fetch("/Batches/UpdateSlabId", {
-            method: 'PUT',
-            body: JSON.stringify(data),
-            headers: myHeaders
-        });
+//async function slabIdChanges(data) {
+//    closedModal()
+//    const myHeaders = new Headers();
+//    myHeaders.append("Content-Type", "application/json");
+//    try {
+//        const response = await fetch("/Batches/UpdateSlabId", {
+//            method: 'PUT',
+//            body: JSON.stringify(data),
+//            headers: myHeaders
+//        });
 
-        if (!response.ok) throw new Error(await response.text());
-        openModal("Success", "Your change are saved successfuly!", "Ok", redirectToHome);
-    }
-    catch (error) {
-        openModal("Error", "One error has ocurred, " + error, "Ok", closedModal);
-        console.error('Error: \n' + error);
-    }
+//        if (!response.ok) throw new Error(await response.text());
+//        openModal("Success", "Your change are saved successfuly!", "Ok", redirectToHome);
+//    }
+//    catch (error) {
+//        openModal("Error", "One error has ocurred, " + error, "Ok", closedModal);
+//        console.error('Error: \n' + error);
+//    }
 
-}
+//}
 

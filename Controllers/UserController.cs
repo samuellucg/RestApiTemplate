@@ -199,6 +199,27 @@ namespace ApiRestTemplate.Controllers
 
         }
 
+        [HttpPost(nameof(RegisterUser))]
+        [SwaggerOperation(Summary = "Register user", Description = "To register user")]
+        public async Task<IActionResult> RegisterUser([FromBody] User user)
+        {
+            try
+            {
+                var response = await _accountService.RegisterUser(user);
+                if (response)
+                {
+                    RedirectToPage("/Home/Login");
+                    return Ok(response);
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(string.Format($"{nameof(RegisterUser)} {e.Message}"));
+                return BadRequest(e.Message);
+            }
+        }
+
         #endregion
     }
 }

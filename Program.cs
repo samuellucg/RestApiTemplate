@@ -11,6 +11,7 @@ using Domain.Model;
 using Domain.Model.Interface;
 using ApiRestTemplate.ApiAreas;
 using Domain.Utils;
+using Domain.Utils.Interface;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +47,7 @@ builder.Services.AddScoped<IUserService, UsersService>();
 builder.Services.AddSingleton<Utilities>();
 builder.Services.AddScoped<IConfig, Configurations>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddSingleton<IUtils, Utilities>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
